@@ -7,6 +7,9 @@
 #include "QuantizationTradePlatformServerDlg.h"
 #include "afxdialogex.h"
 
+#include "../Common/XJLoadDll.h"
+#pragma comment(lib, "XJLoadLibraryLib.lib")
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -53,6 +56,7 @@ CQuantizationTradePlatformServerDlg::CQuantizationTradePlatformServerDlg(CWnd* p
 	: CDialogEx(IDD_QUANTIZATIONTRADEPLATFORMSERVER_DIALOG, pParent)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+	m_pIXJServer = NULL;
 }
 
 void CQuantizationTradePlatformServerDlg::DoDataExchange(CDataExchange* pDX)
@@ -64,6 +68,9 @@ BEGIN_MESSAGE_MAP(CQuantizationTradePlatformServerDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
+	ON_BN_CLICKED(IDC_BTNSTART, &CQuantizationTradePlatformServerDlg::OnBnClickedBtnstart)
+	ON_BN_CLICKED(IDC_BTNCLOSE, &CQuantizationTradePlatformServerDlg::OnBnClickedBtnclose)
+	ON_BN_CLICKED(IDC_BTNSET, &CQuantizationTradePlatformServerDlg::OnBnClickedBtnset)
 END_MESSAGE_MAP()
 
 
@@ -99,6 +106,8 @@ BOOL CQuantizationTradePlatformServerDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
 	// TODO: 在此添加额外的初始化代码
+
+	InitLoadLibrary();
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
@@ -142,7 +151,7 @@ void CQuantizationTradePlatformServerDlg::OnPaint()
 	else
 	{
 		CDialogEx::OnPaint();
-	}
+	}   
 }
 
 //当用户拖动最小化窗口时系统调用此函数取得光标
@@ -152,3 +161,43 @@ HCURSOR CQuantizationTradePlatformServerDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
+void CQuantizationTradePlatformServerDlg::OnBnClickedBtnstart()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	if (NULL == m_pIXJServer)
+	{
+		IXJUnknown *pXJSer = NULL; CreateComObject("XJServerLib", MID_XJServerLib, IID_IXJServer);
+		pXJSer = CreateComObject("XJServerLib", MID_XJServerLib, IID_IXJServer);
+		if (NULL != pXJSer)
+		{
+			pXJSer->QueryInterface(IID_IXJServer, (void **)&m_pIXJServer);
+			if (NULL == m_pIXJServer)
+			{
+				AfxMessageBox(L"IXJServer load failed", MB_OK);
+				return;
+			}
+		}
+	}
+	
+	if (!m_pIXJServer->IsRunning())
+	{
+		m_pIXJServer->Init();
+		m_pIXJServer->Run();
+	}	
+}
+
+
+void CQuantizationTradePlatformServerDlg::OnBnClickedBtnclose()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	m_pIXJServer->Stop();
+	m_pIXJServer->Release();
+	m_pIXJServer = NULL;
+	UnLoadLibrary();
+}
+
+
+void CQuantizationTradePlatformServerDlg::OnBnClickedBtnset()
+{
+	// TODO: 在此添加控件通知处理程序代码
+}

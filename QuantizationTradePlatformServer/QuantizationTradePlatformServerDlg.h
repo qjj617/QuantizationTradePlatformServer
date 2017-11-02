@@ -3,7 +3,7 @@
 //
 
 #pragma once
-
+#include "../Common/IXJServer.h"
 
 // CQuantizationTradePlatformServerDlg 对话框
 class CQuantizationTradePlatformServerDlg : public CDialogEx
@@ -20,6 +20,8 @@ public:
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV 支持
 
+private:
+	IXJServer *m_pIXJServer;
 
 // 实现
 protected:
@@ -31,4 +33,8 @@ protected:
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
+public:
+	afx_msg void OnBnClickedBtnstart();
+	afx_msg void OnBnClickedBtnclose();
+	afx_msg void OnBnClickedBtnset();
 };

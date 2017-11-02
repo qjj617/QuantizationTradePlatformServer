@@ -24,6 +24,9 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="XJWorkProc.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="XJWorkProcLib.h">
@@ -36,6 +39,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Resource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\IXJWorkProc.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="XJWorkProc.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

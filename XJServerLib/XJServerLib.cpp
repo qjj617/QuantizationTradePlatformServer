@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include "XJServerLib.h"
+#include "XJServer.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -60,4 +61,17 @@ BOOL CXJServerLibApp::InitInstance()
 	CWinApp::InitInstance();
 
 	return TRUE;
+}
+
+extern "C" DLL_PORT IXJUnknown* CreateXJObject(GUID GMID, GUID GCID)
+{
+	if (MID_XJServerLib == GMID)
+	{
+		if (IID_IXJServer == GCID)
+		{
+			return new CXJServer();
+		}
+	}
+
+	return NULL;
 }

@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include "XJWorkProcLib.h"
+#include "XJWorkProc.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -60,4 +61,16 @@ BOOL CXJWorkProcLibApp::InitInstance()
 	CWinApp::InitInstance();
 
 	return TRUE;
+}
+
+extern "C" DLL_PORT IXJUnknown* CreateXJObject(GUID GMID, GUID GCID)
+{
+	if (MID_XJWorkProcLib == GMID)
+	{
+		if (IID_IXJWorkProc == GCID)
+		{
+			return new CXJWorkProc();
+		}
+	}
+	return NULL;
 }
