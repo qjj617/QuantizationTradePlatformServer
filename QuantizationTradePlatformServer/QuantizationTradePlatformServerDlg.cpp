@@ -166,23 +166,30 @@ void CQuantizationTradePlatformServerDlg::OnBnClickedBtnstart()
 	// TODO: 在此添加控件通知处理程序代码
 	if (NULL == m_pIXJServer)
 	{
-		IXJUnknown *pXJSer = NULL; CreateComObject("XJServerLib", MID_XJServerLib, IID_IXJServer);
+		IXJUnknown *pXJSer = NULL;
 		pXJSer = CreateComObject("XJServerLib", MID_XJServerLib, IID_IXJServer);
 		if (NULL != pXJSer)
 		{
 			pXJSer->QueryInterface(IID_IXJServer, (void **)&m_pIXJServer);
 			if (NULL == m_pIXJServer)
 			{
-				AfxMessageBox(L"IXJServer load failed", MB_OK);
+				AfxMessageBox(L"IXJServer接口获取失败", MB_OK);
 				return;
 			}
+		}
+		else
+		{
+			AfxMessageBox(L"XJServerLib库加载失败", MB_OK);
+			return;
 		}
 	}
 	
 	if (!m_pIXJServer->IsRunning())
 	{
-		m_pIXJServer->Init();
-		m_pIXJServer->Run();
+		if (m_pIXJServer->Init())
+		{
+			m_pIXJServer->Run();
+		}		
 	}	
 }
 
@@ -190,10 +197,13 @@ void CQuantizationTradePlatformServerDlg::OnBnClickedBtnstart()
 void CQuantizationTradePlatformServerDlg::OnBnClickedBtnclose()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	m_pIXJServer->Stop();
-	m_pIXJServer->Release();
-	m_pIXJServer = NULL;
-	UnLoadLibrary();
+	if (NULL != m_pIXJServer)
+	{
+		m_pIXJServer->Stop();
+		m_pIXJServer->Release();
+		m_pIXJServer = NULL;
+	}	
+	UnLoadLibrary(MID_XJServerLib);
 }
 
 

@@ -15,6 +15,7 @@ typedef int(*PFNSEND)(SOCKET, const char *, const int);
 class IXJWorkProc : public IXJUnknown
 {
 public:
-	virtual void Init(const PFNSEND *pFnSend) = 0;
+	virtual void Init(const PFNSEND pFnSend) = 0;
 	virtual void Run(const SOCKET sSocket, const char* pszMessage, const int nSize) = 0;
+	virtual void Stop() = 0;
 };

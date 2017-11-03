@@ -2,6 +2,7 @@
 #include <WinSock2.h>
 #include <Windows.h>
 #include <MSWSock.h>
+#include "../Common/IXJWorkProc.h"
 #include "../Common/IXJServer.h"
 #pragma comment(lib, "ws2_32")
 #include <list>
@@ -19,8 +20,9 @@ struct IO_OPERATION_DATA
 	DWORD dwRecvSize;
 	DWORD dwFlag;
 
-	IO_OPERATION_DATA() { reset(); }
-	void reset() { memset(this, 0, sizeof(IO_OPERATION_DATA)); }
+	IO_OPERATION_DATA() { init(); }
+	void init() { memset(this, 0, sizeof(IO_OPERATION_DATA)); data.buf = szBuff; data.len = DATA_BUFF_LEN; dwRecvSize = 0; dwFlag; }
+	void reset() { memset(szBuff, 0, DATA_BUFF_LEN); memset(&overlapped, 0, sizeof(WSAOVERLAPPED)); dwRecvSize = 0; dwFlag; }
 };
 
 class CXJServer : public IXJServer
@@ -29,7 +31,7 @@ public:
 	CXJServer();
 	~CXJServer();
 
-	virtual void Init();
+	virtual bool Init();
 	virtual void Run();
 	virtual void Stop();
 	virtual bool IsRunning();
@@ -41,12 +43,17 @@ public:
 
 private:
 	static unsigned __stdcall AcceptThreadProc(void *pParam);
-	static void CALLBACK WorkRoutineProc(DWORD dwError, DWORD dwTransferred, LPWSAOVERLAPPED lpOverlapped, DWORD dwFlags);
+	static void CALLBACK RecvWorkRoutineProc(DWORD dwError, DWORD dwTransferred, LPWSAOVERLAPPED lpOverlapped, DWORD dwFlags);
+	static void CALLBACK SendWorkRoutineProc(DWORD dwError, DWORD dwTransferred, LPWSAOVERLAPPED lpOverlapped, DWORD dwFlags);
+	static int PostRecv(IO_OPERATION_DATA *pOperationData);
+	static int PostSend(SOCKET sSocket, const char *pszMsg, const int nSize);
 
 private:
 	bool m_bRunning;
 	int m_nRef;
 	SOCKET m_sListen;
-	list<IO_OPERATION_DATA*> m_listOperationData;
+	static list<IO_OPERATION_DATA*> m_listOperationData;
+
+	static IXJWorkProc* m_pIXJWorkProc;
 };
 

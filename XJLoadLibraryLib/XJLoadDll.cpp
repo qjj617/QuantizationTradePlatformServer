@@ -13,14 +13,13 @@ struct tagGUID
 	GUID m_guid;
 	bool operator <(const tagGUID &tagGuid)const
 	{
-		return false;
+		return m_guid.Data1 < tagGuid.m_guid.Data1;
 	}
 };
 map<tagGUID, HMODULE> DllMap;
 
 bool InitLoadLibrary()
 {
-	DllMap.clear();
 	return true;
 }
 
@@ -59,13 +58,14 @@ IXJUnknown* CreateComObject(const char *pszFileName, GUID GMID, GUID GCID)
 	return NULL;
 }
 
-bool UnLoadLibrary()
+bool UnLoadLibrary(GUID GMID)
 {
-	for (auto &pair : DllMap)
+	map<tagGUID, HMODULE>::iterator it = DllMap.find(tagGUID(GMID));
+	if (it != DllMap.end())
 	{
-		::FreeLibrary(pair.second);
+		::FreeLibrary(it->second);
+		DllMap.erase(it);
 	}
-	DllMap.clear();
 
 	return true;
 }

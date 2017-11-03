@@ -16,7 +16,7 @@ extern "C" DLL_PORT IXJUnknown* CreateXJObject(GUID GMID, GUID GCID);
 class DLL_PORT IXJServer : public IXJUnknown
 {
 public:
-	virtual void Init() = 0;
+	virtual bool Init() = 0;
 	virtual void Run() = 0;
 	virtual void Stop() = 0;
 	virtual bool IsRunning() = 0;

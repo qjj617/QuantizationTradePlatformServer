@@ -122,6 +122,7 @@
       <SubSystem>Windows</SubSystem>
       <ModuleDefinitionFile>.\XJServerLib.def</ModuleDefinitionFile>
       <ImportLibrary>$(SolutionDir)Libd\$(TargetName).lib</ImportLibrary>
+      <AdditionalLibraryDirectories>$(SolutionDir)Libd;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
