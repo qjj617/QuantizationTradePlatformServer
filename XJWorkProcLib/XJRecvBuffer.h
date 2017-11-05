@@ -11,7 +11,7 @@ struct RECV_BUFFER
 	}
 	~RECV_BUFFER()
 	{
-		delete pData;
+		free(pData);
 	}
 	SOCKET sSocket;
 	XJRspMspHead *pData;

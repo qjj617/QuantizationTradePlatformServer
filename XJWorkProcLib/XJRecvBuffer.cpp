@@ -27,18 +27,11 @@ void CXJRecvBuffer::Push(SOCKET sSocket, const char *pszMsg, const int nSize)
 		return;
 	}
 
-	XJRspMspHead *pMsgHead = (XJRspMspHead *)pszMsg;
-	XJRspMspHead *pMsg = NULL;
-	if (XJ_PUSH_PLATFORMDATA_RSP::RSP_USER_RLOGIN == pMsgHead->MsgId)
-	{
-		pMsg = new XJRspLoginInfo();
-	}
-
-
+	void *pMsg = malloc(nSize);
 	if (NULL != pMsg)
 	{
 		memcpy(pMsg, pszMsg, nSize);
-		Add(sSocket, pMsg);
+		Add(sSocket, (XJRspMspHead *)pMsg);
 	}
 }
 

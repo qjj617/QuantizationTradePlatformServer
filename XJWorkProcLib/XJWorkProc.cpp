@@ -122,6 +122,8 @@ void CXJWorkProc::QueryInterface(GUID GIID, void **pInterface)
 void CXJWorkProc::UserLogin(SOCKET sSocket, XJRspMspHead* pMsg)
 {
 	XJRspLoginInfo *pLogin = (XJRspLoginInfo *)pMsg;
+	Cstring strErr;
+	strErr.to_string(pLogin->nErr);
 	Cstring str = "UserLogin";
 	str += "  ";
 	str += pLogin->strUserName;
@@ -131,5 +133,6 @@ void CXJWorkProc::UserLogin(SOCKET sSocket, XJRspMspHead* pMsg)
 	str += pLogin->strLoginTime;
 	str += "  ";
 	str += pLogin->strSystemName;
+	str += "  error: " + strErr;
 	AfxMessageBox(str, MB_OK);
 }
