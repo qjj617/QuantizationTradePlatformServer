@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{3BE956E9-7EEC-4A67-9A71-5E905839F0EA}</ProjectGuid>
-    <RootNamespace>XJWorkProcLib</RootNamespace>
+    <ProjectGuid>{A6BD5680-FF34-4695-863F-C2336190C6A0}</ProjectGuid>
+    <RootNamespace>XJTFBPlatformLib</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
     <Keyword>MFCDLLProj</Keyword>
   </PropertyGroup>
@@ -75,7 +75,6 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)Bind</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -97,8 +96,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <ModuleDefinitionFile>.\XJWorkProcLib.def</ModuleDefinitionFile>
-      <ImportLibrary>$(SolutionDir)Libd\$(TargetName).lib</ImportLibrary>
+      <ModuleDefinitionFile>.\XJTFBPlatformLib.def</ModuleDefinitionFile>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -112,7 +110,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_WINDOWS;_DEBUG;_USRDLL;XJSERVICESLIB_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -120,9 +118,8 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <ModuleDefinitionFile>.\XJWorkProcLib.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>.\XJTFBPlatformLib.def</ModuleDefinitionFile>
       <ImportLibrary>$(SolutionDir)Libd\$(TargetName).lib</ImportLibrary>
-      <AdditionalLibraryDirectories>$(SolutionDir)Libd;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -148,7 +145,7 @@
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <ModuleDefinitionFile>.\XJWorkProcLib.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>.\XJTFBPlatformLib.def</ModuleDefinitionFile>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -174,7 +171,7 @@
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <ModuleDefinitionFile>.\XJWorkProcLib.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>.\XJTFBPlatformLib.def</ModuleDefinitionFile>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -190,42 +187,33 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Common\Cstring.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="..\Common\FileUtil.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="..\Common\LeeDateTime.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="..\Common\Logger.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="..\Json\json_reader.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="..\Json\json_value.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="..\Json\json_writer.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="..\protocol\XJIPlatformApi.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
+    <ClCompile Include="..\Common\Cstring.cpp" />
+    <ClCompile Include="..\Common\FileUtil.cpp" />
+    <ClCompile Include="..\Common\LeeDateTime.cpp" />
+    <ClCompile Include="..\Common\Logger.cpp" />
+    <ClCompile Include="..\protocol\XJIPlatformApi.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="XJAccountInfo.cpp" />
-    <ClCompile Include="XJAccountInfoManager.cpp" />
-    <ClCompile Include="XJPlatformManager.cpp" />
-    <ClCompile Include="XJRecvBuffer.cpp" />
-    <ClCompile Include="XJWorkProc.cpp" />
-    <ClCompile Include="XJWorkProcLib.cpp" />
+    <ClCompile Include="tfbPlatform\SimpleEvent.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="tfbPlatform\TfbCommon.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="tfbPlatform\TfbPlatform.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="tfbPlatform\TfbTemplat.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="tfbPlatform\TfbTrade.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="XJTFBPlatformLib.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Common\Common.h" />
@@ -237,37 +225,26 @@
     <ClInclude Include="..\Common\LeeDateTime.h" />
     <ClInclude Include="..\Common\Logger.h" />
     <ClInclude Include="..\Common\XJLoadDll.h" />
-    <ClInclude Include="..\Json\autolink.h" />
-    <ClInclude Include="..\Json\config.h" />
-    <ClInclude Include="..\Json\features.h" />
-    <ClInclude Include="..\Json\forwards.h" />
-    <ClInclude Include="..\Json\json.h" />
-    <ClInclude Include="..\Json\json_batchallocator.h" />
-    <ClInclude Include="..\Json\reader.h" />
-    <ClInclude Include="..\Json\value.h" />
-    <ClInclude Include="..\Json\writer.h" />
     <ClInclude Include="..\protocol\XJIPlatformApi.h" />
     <ClInclude Include="..\protocol\XJplatform_callbck_push_protocol.h" />
     <ClInclude Include="..\protocol\XJTradePlatform_network_protocol.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="XJAccountInfo.h" />
-    <ClInclude Include="XJAccountInfoManager.h" />
-    <ClInclude Include="XJPlatformManager.h" />
-    <ClInclude Include="XJRecvBuffer.h" />
-    <ClInclude Include="XJWorkProc.h" />
-    <ClInclude Include="XJWorkProcLib.h" />
+    <ClInclude Include="tfbPlatform\SimpleEvent.h" />
+    <ClInclude Include="tfbPlatform\TfbCommon.h" />
+    <ClInclude Include="tfbPlatform\TfbPlatform.h" />
+    <ClInclude Include="tfbPlatform\TfbTemplat.h" />
+    <ClInclude Include="tfbPlatform\TfbTrade.h" />
+    <ClInclude Include="tfbPlatform\TfbTradeApi.h" />
+    <ClInclude Include="XJTFBPlatformLib.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Json\json_internalarray.inl" />
-    <None Include="..\Json\json_internalmap.inl" />
-    <None Include="..\Json\json_valueiterator.inl" />
-    <None Include="res\XJWorkProcLib.rc2" />
-    <None Include="XJWorkProcLib.def" />
+    <None Include="res\XJTFBPlatformLib.rc2" />
+    <None Include="XJTFBPlatformLib.def" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="XJWorkProcLib.rc" />
+    <ResourceCompile Include="XJTFBPlatformLib.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

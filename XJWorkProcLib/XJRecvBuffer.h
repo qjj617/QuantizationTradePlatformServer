@@ -1,5 +1,6 @@
 #pragma once
-#include "../Common/platform_callbck_push_protocol.h"
+#include "../protocol/XJTradePlatform_network_protocol.h"
+#include "../protocol/XJplatform_callbck_push_protocol.h"
 
 struct RECV_BUFFER
 {
@@ -11,10 +12,10 @@ struct RECV_BUFFER
 	}
 	~RECV_BUFFER()
 	{
-		free(pData);
+		delete pData;
 	}
 	SOCKET sSocket;
-	XJRspMspHead *pData;
+	XJMsgHead *pData;
 
 	RECV_BUFFER *pLast;
 	RECV_BUFFER *pNext;
@@ -32,7 +33,7 @@ public:
 	void Pop(RECV_BUFFER *pBuffer);
 
 private:
-	void Add(SOCKET sSocket, XJRspMspHead *pBuffer);
+	void Add(SOCKET sSocket, XJMsgHead *pBuffer);
 
 private:
 	RECV_BUFFER *m_pHead;

@@ -145,8 +145,8 @@ unsigned __stdcall CXJServer::AcceptThreadProc(void *pParam)
 
 			pThis->m_listOperationData.push_back(pOperationData);
 			DWORD dwRet = SleepEx(1000, TRUE);
-			if (0 != dwRet)
-			{
+			if (WAIT_IO_COMPLETION != dwRet)
+			{				
 				int nErr = WSAGetLastError();
 				Cstring str;
 				str.to_string<int>(nErr);

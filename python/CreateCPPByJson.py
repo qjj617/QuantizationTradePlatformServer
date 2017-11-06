@@ -2,9 +2,9 @@ import json
 
 def CreateCppFile(fileName, JsonData):
     with open(fileName, "w") as f:
-        f.write("#ifndef __XJTRADEPLATFORM_PROTOCOL_H__\n")
-        f.write("#define __XJTRADEPLATFORM_PROTOCOL_H__\n")
-        f.write("#include \"../TestProject/Sample2/json/include/json.h\"\n")
+        f.write("#ifndef __XJTRADEPLATFORM_NETWORK_PROTOCOL_H__\n")
+        f.write("#define __XJTRADEPLATFORM_NETWORK_PROTOCOL_H__\n")
+        f.write("#include \"../Json/json.h\"\n")
         f.write("#include <string>\n")
         f.write("using namespace std;\n\n")
         head = list((JsonData.items()))[0]
@@ -20,7 +20,7 @@ def CreateCppFile(fileName, JsonData):
                 elif isinstance(iv, int):
                     f.write("   int " + ik + " = " + str(iv) + ";\n")
 
-            f.write("\n   void to_object(string strJsonData)\n")
+            f.write("\n   virtual void to_object(string strJsonData)\n")
             f.write("   {\n")
             f.write("       Json::Reader rd;\n")
             f.write("       Json::Value root;\n\n")
@@ -48,7 +48,7 @@ def CreateCppFile(fileName, JsonData):
                     f.write("       " + ik + " = root[\"" + ik + "\"].asDouble();\n")
             f.write("   }\n\n")
 
-            f.write("   string to_string()\n")
+            f.write("   virtual string to_string()\n")
             f.write("   {\n")
             f.write("       Json::FastWriter fw;\n")
             f.write("       Json::Value root;\n\n")
@@ -67,11 +67,11 @@ def CreateCppFile(fileName, JsonData):
         f.close()
 
 
-def ReadJsonFile(filename):jkj
+def ReadJsonFile(filename):
     with open(filename, "r", encoding= 'utf-8') as jsonfile:
         JsonData = json.load(jsonfile)
         return JsonData
 
 if __name__ == "__main__":
-    JsonData = ReadJsonFile("test.json")
-    CreateCppFile("XJTradePlatform_protocol.h", JsonData)
+    JsonData = ReadJsonFile("XJTradePlatform_network_protocol.json")
+    CreateCppFile("XJTradePlatform_network_protocol.h", JsonData)

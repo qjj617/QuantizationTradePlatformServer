@@ -14,26 +14,35 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
     <Filter Include="Common">
-      <UniqueIdentifier>{0c3e0865-2979-4358-ae9f-7dfe41f031a5}</UniqueIdentifier>
+      <UniqueIdentifier>{65790ddb-6632-436e-821a-ac9145ea7e5c}</UniqueIdentifier>
     </Filter>
     <Filter Include="protocol">
-      <UniqueIdentifier>{da6e0e9f-52e5-4fd9-acba-ed00800a0ec0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Json">
-      <UniqueIdentifier>{63f2b24d-e827-4950-b3e0-a635298d83a3}</UniqueIdentifier>
+      <UniqueIdentifier>{f3bde8a1-a235-4e97-a147-c2ade93133cb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="XJWorkProcLib.cpp">
+    <ClCompile Include="XJTFBPlatformLib.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="XJWorkProc.cpp">
+    <ClCompile Include="tfbPlatform\SimpleEvent.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="tfbPlatform\TfbCommon.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="tfbPlatform\TfbPlatform.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="tfbPlatform\TfbTemplat.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="tfbPlatform\TfbTrade.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="..\Common\Cstring.cpp">
@@ -48,33 +57,12 @@
     <ClCompile Include="..\Common\Logger.cpp">
       <Filter>Common</Filter>
     </ClCompile>
-    <ClCompile Include="XJRecvBuffer.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Json\json_reader.cpp">
-      <Filter>Json</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Json\json_value.cpp">
-      <Filter>Json</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Json\json_writer.cpp">
-      <Filter>Json</Filter>
-    </ClCompile>
     <ClCompile Include="..\protocol\XJIPlatformApi.cpp">
       <Filter>protocol</Filter>
     </ClCompile>
-    <ClCompile Include="XJAccountInfo.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="XJAccountInfoManager.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="XJPlatformManager.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="XJWorkProcLib.h">
+    <ClInclude Include="XJTFBPlatformLib.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h">
@@ -86,10 +74,22 @@
     <ClInclude Include="Resource.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common\IXJWorkProc.h">
+    <ClInclude Include="tfbPlatform\SimpleEvent.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="XJWorkProc.h">
+    <ClInclude Include="tfbPlatform\TfbCommon.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="tfbPlatform\TfbPlatform.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="tfbPlatform\TfbTemplat.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="tfbPlatform\TfbTrade.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="tfbPlatform\TfbTradeApi.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="..\Common\Common.h">
@@ -107,6 +107,9 @@
     <ClInclude Include="..\Common\IXJUnknown.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="..\Common\IXJWorkProc.h">
+      <Filter>Common</Filter>
+    </ClInclude>
     <ClInclude Include="..\Common\LeeDateTime.h">
       <Filter>Common</Filter>
     </ClInclude>
@@ -116,74 +119,26 @@
     <ClInclude Include="..\Common\XJLoadDll.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="XJRecvBuffer.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Json\autolink.h">
-      <Filter>Json</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Json\config.h">
-      <Filter>Json</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Json\features.h">
-      <Filter>Json</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Json\forwards.h">
-      <Filter>Json</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Json\json.h">
-      <Filter>Json</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Json\json_batchallocator.h">
-      <Filter>Json</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Json\reader.h">
-      <Filter>Json</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Json\value.h">
-      <Filter>Json</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Json\writer.h">
-      <Filter>Json</Filter>
-    </ClInclude>
-    <ClInclude Include="..\protocol\XJTradePlatform_network_protocol.h">
-      <Filter>protocol</Filter>
-    </ClInclude>
     <ClInclude Include="..\protocol\XJIPlatformApi.h">
       <Filter>protocol</Filter>
     </ClInclude>
     <ClInclude Include="..\protocol\XJplatform_callbck_push_protocol.h">
       <Filter>protocol</Filter>
     </ClInclude>
-    <ClInclude Include="XJAccountInfo.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="XJAccountInfoManager.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="XJPlatformManager.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="..\protocol\XJTradePlatform_network_protocol.h">
+      <Filter>protocol</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="XJWorkProcLib.def">
+    <None Include="XJTFBPlatformLib.def">
       <Filter>源文件</Filter>
     </None>
-    <None Include="res\XJWorkProcLib.rc2">
+    <None Include="res\XJTFBPlatformLib.rc2">
       <Filter>资源文件</Filter>
-    </None>
-    <None Include="..\Json\json_internalarray.inl">
-      <Filter>Json</Filter>
-    </None>
-    <None Include="..\Json\json_internalmap.inl">
-      <Filter>Json</Filter>
-    </None>
-    <None Include="..\Json\json_valueiterator.inl">
-      <Filter>Json</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="XJWorkProcLib.rc">
+    <ResourceCompile Include="XJTFBPlatformLib.rc">
       <Filter>资源文件</Filter>
     </ResourceCompile>
   </ItemGroup>

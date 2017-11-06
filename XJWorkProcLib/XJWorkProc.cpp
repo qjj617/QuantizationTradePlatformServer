@@ -7,17 +7,25 @@ PFNSEND CXJWorkProc::m_pFnSend = NULL;
 bool CXJWorkProc::m_bRunning = false;
 CXJRecvBuffer* CXJWorkProc::m_pRecvBuffer = NULL;
 CRITICAL_SECTION CXJWorkProc::m_csRecvBuffer;
+SOCKET CXJWorkProc::m_sSocket = NULL;
 
 HANDLE hEvent = NULL;
 
-MSG_ROUTE CXJWorkProc::m_MsgRoute[] = { MSG_ROUTE(XJ_PUSH_PLATFORMDATA_RSP::RSP_USER_RLOGIN, &CXJWorkProc::UserLogin), 
-										MSG_ROUTE(XJ_PUSH_PLATFORMDATA_RSP::RSP_NULL, NULL) };
+MSG_ROUTE CXJWorkProc::m_MsgRoute[] = { MSG_ROUTE(3, &CXJWorkProc::UserLogin), 
+										MSG_ROUTE(0, NULL) };
+
+APPMSG CXJWorkProc::m_AppMsgMap[] = {	APPMSG(XJ_PUSH_PLATFORMDATA_RSP::RSP_USER_RLOGIN, &CXJWorkProc::OnRspLogin),
+										APPMSG(XJ_PUSH_PLATFORMDATA_RSP::RSP_USER_LOGOUT, &CXJWorkProc::OnRspLogout),
+										APPMSG(XJ_PUSH_PLATFORMDATA_RSP::RSP_QRY_FUNDACCOUNT, &CXJWorkProc::OnRspAccountInfo),
+										APPMSG(0, NULL) };
 
 CXJWorkProc::CXJWorkProc()
 {
 	m_nRef = 0;
 	m_pRecvBuffer = new CXJRecvBuffer();
 	m_hRecvEvent = NULL;
+
+	pPlatformManager = &CPlatformManager::GetPlatformManager(PushPlatformDataProc);
 }
 
 
@@ -39,6 +47,7 @@ void CXJWorkProc::Init(const PFNSEND pFnSend)
 	{
 		CloseHandle(hWorkThread);
 	}
+	pPlatformManager->InitPlatformManager();
 }
 
 void CXJWorkProc::Run(const SOCKET sSocket, const char* pszMessage, const int nSize)
@@ -65,7 +74,7 @@ unsigned __stdcall CXJWorkProc::WorkThreadProc(void *pParam)
 			MSG_ROUTE *pMsgRoute = m_MsgRoute;
 			while (NULL != pMsgRoute->pFn)
 			{
-				if (pBuffer->pData->MsgId == pMsgRoute->msgId)
+				if (pBuffer->pData->nEvent == pMsgRoute->msgId)
 				{
 					(pThis->*(pMsgRoute->pFn))(pBuffer->sSocket, pBuffer->pData);
 					break;
@@ -79,7 +88,7 @@ unsigned __stdcall CXJWorkProc::WorkThreadProc(void *pParam)
 			m_pRecvBuffer->Pop(pBuffer);
 			LeaveCriticalSection(&m_csRecvBuffer);
 		}
-		//ResetEvent(pThis->m_hRecvEvent);
+		ResetEvent(pThis->m_hRecvEvent);
 	}
 	//AfxMessageBox(L"WorkThreadProc end", MB_OK);
 	return 0;
@@ -119,20 +128,55 @@ void CXJWorkProc::QueryInterface(GUID GIID, void **pInterface)
 	}
 }
 
-void CXJWorkProc::UserLogin(SOCKET sSocket, XJRspMspHead* pMsg)
+int CXJWorkProc::PushPlatformDataProc(int nMsgId, XJRspMspHead *pParam)
 {
-	XJRspLoginInfo *pLogin = (XJRspLoginInfo *)pMsg;
-	Cstring strErr;
-	strErr.to_string(pLogin->nErr);
-	Cstring str = "UserLogin";
-	str += "  ";
-	str += pLogin->strUserName;
-	str += "  ";
-	str += pLogin->strTradingDate;
-	str += "  ";
-	str += pLogin->strLoginTime;
-	str += "  ";
-	str += pLogin->strSystemName;
-	str += "  error: " + strErr;
-	AfxMessageBox(str, MB_OK);
+	APPMSG *pTemp = m_AppMsgMap;
+	if (NULL != pTemp)
+	{
+		while (NULL != pTemp->pFnAppMsg)
+		{
+			if (nMsgId == pTemp->nMsgId)
+			{
+				return (*pTemp->pFnAppMsg)(pParam);
+			}
+
+			pTemp++;
+		}
+	}
+	return 0;
+}
+
+int CXJWorkProc::OnRspLogin(XJRspMspHead *pParam)
+{
+	XJRspLoginInfo *pLoginInfo = (XJRspLoginInfo*)pParam;
+
+	XJRspUserLogin msg;
+	msg.nEvent = XJ_PUSH_PLATFORMDATA_RSP::RSP_USER_RLOGIN;
+	msg.nPlatformType = pLoginInfo->pfType;
+	msg.strAccountId = pLoginInfo->strUserName;
+	msg.strBrokerID = pLoginInfo->strBrokerID;
+	msg.strSystemName = pLoginInfo->strSystemName;
+	msg.strMsg = pLoginInfo->strMsg;
+	string strSend = msg.to_string();
+	
+	return m_pFnSend(m_sSocket, strSend.c_str(), strSend.size());
+}
+
+int CXJWorkProc::OnRspLogout(XJRspMspHead *pParam)
+{
+	return 0;
+}
+
+int CXJWorkProc::OnRspAccountInfo(XJRspMspHead *pParam)
+{
+	return 0;
+}
+
+void CXJWorkProc::UserLogin(SOCKET sSocket, XJMsgHead* pMsg)
+{
+	XJReqUserLogin *pLogin = (XJReqUserLogin *)pMsg;
+
+	m_sSocket = sSocket;
+	IPlatformApi *IPlatfromApi = pPlatformManager->GetPlatform((PLATFORM_TYPE)pLogin->nPlatformType);
+	IPlatfromApi->Login(pLogin->strAccountId, pLogin->strPassword, pLogin->b_t, pLogin->b_n, pLogin->bSimulate);
 }

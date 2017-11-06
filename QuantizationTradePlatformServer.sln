@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XJServerLib", "XJServerLib\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XJWorkProcLib", "XJWorkProcLib\XJWorkProcLib.vcxproj", "{3BE956E9-7EEC-4A67-9A71-5E905839F0EA}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XJTFBPlatformLib", "XJTFBPlatformLib\XJTFBPlatformLib.vcxproj", "{A6BD5680-FF34-4695-863F-C2336190C6A0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -51,6 +53,14 @@ Global
 		{3BE956E9-7EEC-4A67-9A71-5E905839F0EA}.Release|x64.Build.0 = Release|x64
 		{3BE956E9-7EEC-4A67-9A71-5E905839F0EA}.Release|x86.ActiveCfg = Release|Win32
 		{3BE956E9-7EEC-4A67-9A71-5E905839F0EA}.Release|x86.Build.0 = Release|Win32
+		{A6BD5680-FF34-4695-863F-C2336190C6A0}.Debug|x64.ActiveCfg = Debug|x64
+		{A6BD5680-FF34-4695-863F-C2336190C6A0}.Debug|x64.Build.0 = Debug|x64
+		{A6BD5680-FF34-4695-863F-C2336190C6A0}.Debug|x86.ActiveCfg = Debug|Win32
+		{A6BD5680-FF34-4695-863F-C2336190C6A0}.Debug|x86.Build.0 = Debug|Win32
+		{A6BD5680-FF34-4695-863F-C2336190C6A0}.Release|x64.ActiveCfg = Release|x64
+		{A6BD5680-FF34-4695-863F-C2336190C6A0}.Release|x64.Build.0 = Release|x64
+		{A6BD5680-FF34-4695-863F-C2336190C6A0}.Release|x86.ActiveCfg = Release|Win32
+		{A6BD5680-FF34-4695-863F-C2336190C6A0}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
